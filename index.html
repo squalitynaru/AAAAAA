@@ -16,6 +16,9 @@
             background-position: center;
             background-attachment: fixed;
             color: #e0e0e0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Ajout de l'overlay sombre */
@@ -26,7 +29,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5); /* Légère transparence pour améliorer la lisibilité */
+            background: rgba(0, 0, 0, 0.5);
             z-index: -1;
         }
 
@@ -41,15 +44,17 @@
             padding-top: 20px;
             padding-left: 20px;
             z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .sidebar a {
-            display: block;
             color: #e0e0e0;
             padding: 10px;
             text-decoration: none;
             font-size: 18px;
-            margin-bottom: 10px;
+            font-weight: 600;
             transition: color 0.3s ease, background-color 0.3s ease;
         }
 
@@ -59,6 +64,40 @@
             text-decoration: underline;
         }
 
+        /* Menu mobile - Toggle */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 30px;
+            color: #e0e0e0;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+                position: absolute;
+                top: 0;
+                left: -250px;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                top: 20px;
+                left: 20px;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 15px;
+            }
+        }
+
         /* Contenu principal */
         .content {
             margin-left: 270px;
@@ -66,6 +105,8 @@
             background-color: rgba(44, 44, 44, 0.7);
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            flex-grow: 1;
+            transition: margin-left 0.3s ease;
         }
 
         header {
@@ -81,9 +122,7 @@
             padding: 10px;
             background-color: rgba(30, 30, 30, 0.8);
             color: white;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            position: relative;
         }
 
         h1, h2 {
@@ -115,15 +154,28 @@
         .active {
             display: block;
         }
+
+        /* Ajout d'animations au changement de chapitres */
+        .content section {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .content section.active {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
+    <!-- Menu mobile - Toggle -->
+    <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+
     <!-- Menu latéral -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
         <h2 style="color: white;">L'Histoire d'un Voyage</h2>
-        <a href="#" onclick="showChapter(1)">Chapitre 1: SERRRRRRRRRRRRR</a>
-        <a href="#" onclick="showChapter(2)">Chapitre 2: JEAN MARIE</a>
-        <a href="#" onclick="showChapter(3)">Chapitre 3: PLUS D'INSPI</a>
+        <a href="#" onclick="showChapter(1)" aria-controls="chapitre1">Chapitre 1: SERRRRRRRRRRRRR</a>
+        <a href="#" onclick="showChapter(2)" aria-controls="chapitre2">Chapitre 2: JEAN MARIE</a>
+        <a href="#" onclick="showChapter(3)" aria-controls="chapitre3">Chapitre 3: PLUS D'INSPI</a>
     </div>
 
     <!-- Contenu principal -->
@@ -170,6 +222,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             showChapter(1); // Afficher le chapitre 1 au chargement de la page
         });
+
+        // Fonction pour activer/désactiver la sidebar en mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
     </script>
 </body>
 </html>
