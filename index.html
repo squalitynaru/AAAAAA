@@ -11,23 +11,11 @@
             margin: 0;
             padding: 0;
             background-color: #121212;
-            background-image: url('image1.jpg');
+            background-image: url('image1.jpg'); /* Image d'arrière-plan */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             color: #e0e0e0;
-        }
-
-        /* Ajout de l'overlay sombre */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5); /* Légère transparence pour améliorer la lisibilité */
-            z-index: -1;
         }
 
         /* Style du menu latéral */
@@ -106,19 +94,25 @@
             line-height: 1.6;
         }
 
-        /* Cacher les sections des chapitres par défaut */
         .chapter {
             display: none;
         }
 
-        /* Afficher la section active */
         .active {
             display: block;
+        }
+
+        /* Style de l'image pour chaque chapitre */
+        .chapter img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Menu latéral -->
     <div class="sidebar">
         <h2 style="color: white;">L'Histoire d'un Voyage</h2>
         <a href="#" onclick="showChapter(1)">Chapitre 1: SERRRRRRRRRRRRR</a>
@@ -126,7 +120,6 @@
         <a href="#" onclick="showChapter(3)">Chapitre 3: PLUS D'INSPI</a>
     </div>
 
-    <!-- Contenu principal -->
     <div class="content">
         <header>
             <h1>L'Histoire d'un Voyage</h1>
@@ -134,16 +127,19 @@
 
         <section id="chapitre1" class="chapter">
             <h2>Chapitre 1: SERRRRRRRRRRRRR</h2>
+            <img src="image1.jpg" alt="Image du chapitre 1" id="chapitre1-image" />
             <p>SERRRRRRRRRRRRRRRRRRRRRRRR</p>
         </section>
 
         <section id="chapitre2" class="chapter">
             <h2>Chapitre 2: JEAN MARIE</h2>
+            <img src="image2.jpg" alt="Image du chapitre 2" id="chapitre2-image" />
             <p>JEAN MARIE AIME LES OISEAUX ET LES PÊCHES</p>
         </section>
 
         <section id="chapitre3" class="chapter">
             <h2>Chapitre 3: PLUS D'INSPI</h2>
+            <img src="image3.jpg" alt="Image du chapitre 3" id="chapitre3-image" />
             <p>RIEN A DIRE</p>
         </section>
     </div>
@@ -164,6 +160,19 @@
             // Afficher le chapitre sélectionné
             var selectedChapter = document.getElementById('chapitre' + chapitre);
             selectedChapter.classList.add('active');
+
+            // Modifier l'image du chapitre en fonction de la sélection
+            var imageSrc;
+            if (chapitre === 1) {
+                imageSrc = 'image1.jpg';
+            } else if (chapitre === 2) {
+                imageSrc = 'image2.jpg';
+            } else if (chapitre === 3) {
+                imageSrc = 'image3.jpg';
+            }
+
+            // Mettre à jour l'image en fonction du chapitre
+            document.getElementById('chapitre' + chapitre + '-image').src = imageSrc;
         }
 
         // Afficher le premier chapitre par défaut
