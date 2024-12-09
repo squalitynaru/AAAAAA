@@ -7,15 +7,27 @@
     <style>
         /* Mode sombre avec image d'arrière-plan */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Open Sans', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #121212; /* Fond sombre */
-            background-image: url('image1.jpg'); /* Image d'arrière-plan */
-            background-size: cover; /* Couvre tout l'écran */
-            background-position: center; /* Centre l'image */
-            background-attachment: fixed; /* Fixe l'image lors du défilement */
-            color: #e0e0e0; /* Texte clair */
+            background-color: #121212;
+            background-image: url('image1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #e0e0e0;
+        }
+
+        /* Ajout de l'overlay sombre */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5); /* Légère transparence pour améliorer la lisibilité */
+            z-index: -1;
         }
 
         /* Style du menu latéral */
@@ -25,10 +37,10 @@
             position: fixed;
             top: 0;
             left: 0;
-            background-color: rgba(30, 30, 30, 0.9); /* Fond sombre pour le menu */
+            background-color: rgba(30, 30, 30, 0.9);
             padding-top: 20px;
             padding-left: 20px;
-            z-index: 1000; /* Assure que la sidebar est au-dessus du contenu */
+            z-index: 1000;
         }
 
         .sidebar a {
@@ -38,27 +50,30 @@
             text-decoration: none;
             font-size: 18px;
             margin-bottom: 10px;
+            transition: color 0.3s ease, background-color 0.3s ease;
         }
 
         .sidebar a:hover {
-            color: #4caf50; /* Couleur verte au survol */
+            color: #4caf50;
+            background-color: rgba(0, 0, 0, 0.7);
             text-decoration: underline;
         }
 
         /* Contenu principal */
         .content {
-            margin-left: 270px; /* Décale le contenu pour laisser place à la sidebar */
+            margin-left: 270px;
             padding: 20px;
-            background-color: rgba(44, 44, 44, 0.7); /* Fond semi-transparent pour les sections */
+            background-color: rgba(44, 44, 44, 0.7);
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
 
         header {
-            background-color: rgba(30, 30, 30, 0.8); /* Fond légèrement transparent */
+            background-color: rgba(30, 30, 30, 0.8);
             color: white;
             padding: 20px;
             text-align: center;
+            font-family: 'Playfair Display', serif;
         }
 
         footer {
@@ -72,11 +87,33 @@
         }
 
         h1, h2 {
-            color: #ffffff; /* Titre en blanc */
+            color: #ffffff;
         }
 
         p {
-            color: #d3d3d3; /* Texte des paragraphes en gris clair */
+            color: #d3d3d3;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        /* Cacher les sections des chapitres par défaut */
+        .chapter {
+            display: none;
+        }
+
+        /* Afficher la section active */
+        .active {
+            display: block;
         }
     </style>
 </head>
@@ -84,9 +121,9 @@
     <!-- Menu latéral -->
     <div class="sidebar">
         <h2 style="color: white;">L'Histoire d'un Voyage</h2>
-        <a href="#chapitre1">Chapitre 1: SERRRRRRRRRRRRR</a>
-        <a href="#chapitre2">Chapitre 2: JEAN MARIE</a>
-        <a href="#chapitre3">Chapitre 3: PLUS D'INSPI</a>
+        <a href="#" onclick="showChapter(1)">Chapitre 1: SERRRRRRRRRRRRR</a>
+        <a href="#" onclick="showChapter(2)">Chapitre 2: JEAN MARIE</a>
+        <a href="#" onclick="showChapter(3)">Chapitre 3: PLUS D'INSPI</a>
     </div>
 
     <!-- Contenu principal -->
@@ -95,17 +132,17 @@
             <h1>L'Histoire d'un Voyage</h1>
         </header>
 
-        <section id="chapitre1">
+        <section id="chapitre1" class="chapter">
             <h2>Chapitre 1: SERRRRRRRRRRRRR</h2>
             <p>SERRRRRRRRRRRRRRRRRRRRRRRR</p>
         </section>
 
-        <section id="chapitre2">
+        <section id="chapitre2" class="chapter">
             <h2>Chapitre 2: JEAN MARIE</h2>
             <p>JEAN MARIE AIME LES OISEAUX ET LES PÊCHES</p>
         </section>
 
-        <section id="chapitre3">
+        <section id="chapitre3" class="chapter">
             <h2>Chapitre 3: PLUS D'INSPI</h2>
             <p>RIEN A DIRE</p>
         </section>
@@ -114,5 +151,25 @@
     <footer>
         <p>© 2024 L'Histoire d'un Voyage. Tous droits réservés.</p>
     </footer>
+
+    <script>
+        // Fonction pour afficher le chapitre sélectionné
+        function showChapter(chapitre) {
+            // Cacher toutes les sections
+            var chapters = document.querySelectorAll('.chapter');
+            chapters.forEach(function(chapter) {
+                chapter.classList.remove('active');
+            });
+
+            // Afficher le chapitre sélectionné
+            var selectedChapter = document.getElementById('chapitre' + chapitre);
+            selectedChapter.classList.add('active');
+        }
+
+        // Afficher le premier chapitre par défaut
+        document.addEventListener('DOMContentLoaded', function() {
+            showChapter(1); // Afficher le chapitre 1 au chargement de la page
+        });
+    </script>
 </body>
 </html>
