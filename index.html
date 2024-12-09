@@ -19,6 +19,8 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
+            justify-content: center; /* Centrer le contenu verticalement */
+            align-items: center; /* Centrer le contenu horizontalement */
         }
 
         /* Ajout de l'overlay sombre */
@@ -101,6 +103,9 @@
             .content {
                 margin-left: 0;
                 padding: 15px;
+                width: 90%; /* Réduit la largeur sur mobile pour que le contenu soit bien centré */
+                max-width: 700px; /* Limite la largeur du contenu pour éviter qu'il soit trop large */
+                box-sizing: border-box;
             }
         }
 
@@ -113,6 +118,9 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             flex-grow: 1;
             transition: margin-left 0.3s ease;
+            max-width: 1200px; /* Limite la largeur pour les grands écrans */
+            width: 100%;
+            box-sizing: border-box;
         }
 
         header {
