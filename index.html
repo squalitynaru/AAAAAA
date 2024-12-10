@@ -171,19 +171,18 @@
             display: block;
             opacity: 1;
         }
-
     </style>
 </head>
 <body>
     <!-- Menu mobile - Toggle -->
-    <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+    <div class="menu-toggle" onclick="toggleSidebar()" aria-label="Ouvrir le menu">☰</div>
 
     <!-- Menu latéral -->
-    <div class="sidebar" id="sidebar">
+    <div class="sidebar" id="sidebar" aria-hidden="true">
         <h2 style="color: white;">L'Histoire d'un Voyage</h2>
-        <a href="#" onclick="showChapter(1)" aria-controls="chapitre1">Chapitre 1: SERRRRRRRRRRRRR</a>
-        <a href="#" onclick="showChapter(2)" aria-controls="chapitre2">Chapitre 2: JEAN MARIE</a>
-        <a href="#" onclick="showChapter(3)" aria-controls="chapitre3">Chapitre 3: PLUS D'INSPI</a>
+        <a href="#" onclick="showChapter(1)" aria-controls="chapitre1" aria-expanded="false">Chapitre 1: SERRRRRRRRRRRRR</a>
+        <a href="#" onclick="showChapter(2)" aria-controls="chapitre2" aria-expanded="false">Chapitre 2: JEAN MARIE</a>
+        <a href="#" onclick="showChapter(3)" aria-controls="chapitre3" aria-expanded="false">Chapitre 3: PLUS D'INSPI</a>
     </div>
 
     <!-- Contenu principal -->
@@ -224,6 +223,17 @@
             // Afficher le chapitre sélectionné
             var selectedChapter = document.getElementById('chapitre' + chapitre);
             selectedChapter.classList.add('active');
+
+            // Mettre à jour l'état des liens dans la barre latérale
+            var links = document.querySelectorAll('.sidebar a');
+            links.forEach(function(link) {
+                link.setAttribute('aria-expanded', 'false');
+            });
+
+            var activeLink = document.querySelector('a[aria-controls="chapitre' + chapitre + '"]');
+            if (activeLink) {
+                activeLink.setAttribute('aria-expanded', 'true');
+            }
         }
 
         // Afficher le premier chapitre par défaut
@@ -233,7 +243,9 @@
 
         // Fonction pour activer/désactiver la sidebar en mobile
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+            sidebar.setAttribute('aria-hidden', sidebar.classList.contains('active') ? 'false' : 'true');
         }
     </script>
 </body>
