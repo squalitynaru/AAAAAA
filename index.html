@@ -25,7 +25,7 @@
 
         /* Menu Hamburger */
         .menu-toggle {
-            display: flex;
+            display: none; /* Caché sur mobile */
             align-items: center;
             justify-content: center;
             font-size: 30px;
@@ -38,23 +38,24 @@
             z-index: 1000;
         }
 
-        /* Style du menu latéral */
+        /* Menu latéral */
         .sidebar {
             height: 100%;
             width: 250px;
             position: fixed;
             top: 0;
-            left: -250px; /* Cacher le menu par défaut */
+            left: -250px; /* Menu caché par défaut */
             background-color: rgba(30, 30, 30, 0.9);
             padding-top: 20px;
             padding-left: 20px;
-            z-index: 999;
+            z-index: 1000;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            transition: left 0.3s ease;
+            transition: left 0.3s ease; /* Transition pour l'ouverture/fermeture */
         }
 
+        /* Liens dans le menu */
         .sidebar a {
             color: #e0e0e0;
             padding: 10px;
@@ -84,6 +85,7 @@
             box-sizing: border-box;
         }
 
+        /* Header */
         header {
             background-color: rgba(30, 30, 30, 0.8);
             color: white;
@@ -97,7 +99,6 @@
             padding: 10px;
             background-color: rgba(30, 30, 30, 0.8);
             color: white;
-            position: relative;
         }
 
         h1, h2 {
@@ -133,31 +134,42 @@
             opacity: 1;
         }
 
-        /* Style du bouton dans le menu */
-        .sidebar .close-btn {
-            color: #e0e0e0;
-            font-size: 30px;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-        }
-
-        /* Pour les écrans mobiles, ajuster le style du menu */
-        @media (max-width: 768px) {
+        /* Menu visible sur PC */
+        @media (min-width: 768px) {
             .sidebar {
-                left: -250px; /* Menu caché sur mobile */
+                left: 0; /* Menu visible en permanence sur PC */
             }
 
-            .sidebar.active {
-                left: 0; /* Menu visible quand la classe "active" est ajoutée */
+            .menu-toggle {
+                display: block; /* Menu hamburger visible sur PC mais inactif */
             }
 
             .content {
-                margin-left: 0;
-                width: 100%;
+                margin-left: 270px; /* Décalage du contenu pour laisser de la place au menu */
             }
         }
+
+        /* Menu mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -250px; /* Menu caché par défaut */
+            }
+
+            .sidebar.active {
+                left: 0; /* Menu visible lorsqu'il est activé */
+            }
+
+            .content {
+                margin-left: 0; /* Pas de décalage du contenu sur mobile */
+                width: 90%; /* Réduit la largeur sur mobile */
+                max-width: 700px;
+            }
+
+            .menu-toggle {
+                display: flex; /* Affiche le bouton hamburger */
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -167,11 +179,10 @@
 
     <!-- Menu latéral -->
     <div class="sidebar" id="sidebar">
-        <div class="close-btn" onclick="toggleSidebar()">×</div>
         <h2 style="color: white;">L'Histoire d'un Voyage</h2>
-        <a href="#" onclick="showChapter(1)" aria-controls="chapitre1">Chapitre 1: SERRRRRRRRRRRRR</a>
-        <a href="#" onclick="showChapter(2)" aria-controls="chapitre2">Chapitre 2: JEAN MARIE</a>
-        <a href="#" onclick="showChapter(3)" aria-controls="chapitre3">Chapitre 3: PLUS D'INSPI</a>
+        <a href="#" onclick="showChapter(1)">Chapitre 1: SERRRRRRRRRRRRR</a>
+        <a href="#" onclick="showChapter(2)">Chapitre 2: JEAN MARIE</a>
+        <a href="#" onclick="showChapter(3)">Chapitre 3: PLUS D'INSPI</a>
     </div>
 
     <!-- Contenu principal -->
@@ -203,29 +214,22 @@
     <script>
         // Fonction pour afficher le chapitre sélectionné
         function showChapter(chapitre) {
-            // Cacher toutes les sections
             var chapters = document.querySelectorAll('.chapter');
             chapters.forEach(function(chapter) {
                 chapter.classList.remove('active');
             });
-
-            // Afficher le chapitre sélectionné
             var selectedChapter = document.getElementById('chapitre' + chapitre);
             selectedChapter.classList.add('active');
-
-            // Fermer le menu après la sélection d'un chapitre
-            toggleSidebar();
         }
 
         // Afficher le premier chapitre par défaut
         document.addEventListener('DOMContentLoaded', function() {
-            showChapter(1); // Afficher le chapitre 1 au chargement de la page
+            showChapter(1);
         });
 
-        // Fonction pour activer/désactiver la sidebar (menu latéral)
+        // Fonction pour activer/désactiver la sidebar sur mobile
         function toggleSidebar() {
-            var sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('active');
+            document.getElementById('sidebar').classList.toggle('active');
         }
     </script>
 </body>
