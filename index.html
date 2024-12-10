@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L'Histoire d'un Voyage</title>
     <style>
-        /* Mode sombre avec image d'arrière-plan */
+        /* Style général */
         body {
             font-family: 'Open Sans', sans-serif;
             margin: 0;
@@ -19,20 +19,23 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Centrer le contenu verticalement */
-            align-items: center; /* Centrer le contenu horizontalement */
+            justify-content: flex-start;
+            align-items: center;
         }
 
-        /* Ajout de l'overlay sombre */
-        body::before {
-            content: '';
+        /* Menu Hamburger */
+        .menu-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #e0e0e0;
+            cursor: pointer;
+            padding: 10px;
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: -1;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
         }
 
         /* Style du menu latéral */
@@ -45,11 +48,11 @@
             background-color: rgba(30, 30, 30, 0.9);
             padding-top: 20px;
             padding-left: 20px;
-            z-index: 1000;
+            z-index: 999;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            transition: left 0.3s ease; /* Transition pour glisser le menu */
+            transition: left 0.3s ease;
         }
 
         .sidebar a {
@@ -67,48 +70,6 @@
             text-decoration: underline;
         }
 
-        /* Menu mobile - Toggle */
-        .menu-toggle {
-            display: none;
-            cursor: pointer;
-            font-size: 30px;
-            color: #e0e0e0;
-        }
-
-        /* Pour les grands écrans, le menu est visible par défaut et utilisera un effet de transition */
-        @media (min-width: 768px) {
-            .sidebar {
-                left: 0; /* Menu visible par défaut sur PC */
-                position: fixed;
-            }
-        }
-
-        /* Pour les écrans mobiles, le menu est caché et activé par le bouton */
-        @media (max-width: 768px) {
-            .sidebar {
-                left: -250px; /* Menu caché sur mobile */
-            }
-
-            .sidebar.active {
-                left: 0; /* Menu visible quand la classe "active" est ajoutée */
-            }
-
-            .menu-toggle {
-                display: block;
-                position: absolute;
-                top: 20px;
-                left: 20px;
-            }
-
-            .content {
-                margin-left: 0;
-                padding: 15px;
-                width: 90%; /* Réduit la largeur sur mobile pour que le contenu soit bien centré */
-                max-width: 700px; /* Limite la largeur du contenu pour éviter qu'il soit trop large */
-                box-sizing: border-box;
-            }
-        }
-
         /* Contenu principal */
         .content {
             margin-left: 270px;
@@ -118,7 +79,7 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             flex-grow: 1;
             transition: margin-left 0.3s ease;
-            max-width: 1200px; /* Limite la largeur pour les grands écrans */
+            max-width: 1200px;
             width: 100%;
             box-sizing: border-box;
         }
@@ -163,7 +124,7 @@
         .chapter {
             display: none;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out; /* Transition d'opacité lors du changement de chapitre */
+            transition: opacity 0.5s ease-in-out;
         }
 
         /* Afficher la section active */
@@ -171,18 +132,46 @@
             display: block;
             opacity: 1;
         }
+
+        /* Style du bouton dans le menu */
+        .sidebar .close-btn {
+            color: #e0e0e0;
+            font-size: 30px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        /* Pour les écrans mobiles, ajuster le style du menu */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -250px; /* Menu caché sur mobile */
+            }
+
+            .sidebar.active {
+                left: 0; /* Menu visible quand la classe "active" est ajoutée */
+            }
+
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Menu mobile - Toggle -->
-    <div class="menu-toggle" onclick="toggleSidebar()" aria-label="Ouvrir le menu">☰</div>
+
+    <!-- Menu Hamburger -->
+    <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
 
     <!-- Menu latéral -->
-    <div class="sidebar" id="sidebar" aria-hidden="true">
+    <div class="sidebar" id="sidebar">
+        <div class="close-btn" onclick="toggleSidebar()">×</div>
         <h2 style="color: white;">L'Histoire d'un Voyage</h2>
-        <a href="#" onclick="showChapter(1)" aria-controls="chapitre1" aria-expanded="false">Chapitre 1: SERRRRRRRRRRRRR</a>
-        <a href="#" onclick="showChapter(2)" aria-controls="chapitre2" aria-expanded="false">Chapitre 2: JEAN MARIE</a>
-        <a href="#" onclick="showChapter(3)" aria-controls="chapitre3" aria-expanded="false">Chapitre 3: PLUS D'INSPI</a>
+        <a href="#" onclick="showChapter(1)" aria-controls="chapitre1">Chapitre 1: SERRRRRRRRRRRRR</a>
+        <a href="#" onclick="showChapter(2)" aria-controls="chapitre2">Chapitre 2: JEAN MARIE</a>
+        <a href="#" onclick="showChapter(3)" aria-controls="chapitre3">Chapitre 3: PLUS D'INSPI</a>
     </div>
 
     <!-- Contenu principal -->
@@ -224,16 +213,8 @@
             var selectedChapter = document.getElementById('chapitre' + chapitre);
             selectedChapter.classList.add('active');
 
-            // Mettre à jour l'état des liens dans la barre latérale
-            var links = document.querySelectorAll('.sidebar a');
-            links.forEach(function(link) {
-                link.setAttribute('aria-expanded', 'false');
-            });
-
-            var activeLink = document.querySelector('a[aria-controls="chapitre' + chapitre + '"]');
-            if (activeLink) {
-                activeLink.setAttribute('aria-expanded', 'true');
-            }
+            // Fermer le menu après la sélection d'un chapitre
+            toggleSidebar();
         }
 
         // Afficher le premier chapitre par défaut
@@ -241,11 +222,10 @@
             showChapter(1); // Afficher le chapitre 1 au chargement de la page
         });
 
-        // Fonction pour activer/désactiver la sidebar en mobile
+        // Fonction pour activer/désactiver la sidebar (menu latéral)
         function toggleSidebar() {
             var sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('active');
-            sidebar.setAttribute('aria-hidden', sidebar.classList.contains('active') ? 'false' : 'true');
         }
     </script>
 </body>
